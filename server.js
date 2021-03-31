@@ -6,8 +6,9 @@ const server = express()
 server.use(bodyParser.json())
 
 
-
-mq.connect("amqp://localhost")
+server.get('/rbbitmq', (req, res)=> {
+  
+    mq.connect("amqp://localhost")
 .then(conn => {
     conn.createChannel()
     .then(ch => {
@@ -28,13 +29,7 @@ mq.connect("amqp://localhost")
         
     }, {
         noAck:true
-    })
-       
-       
-
-
-
-    })
+    })})
     .catch(err => {
         console.log(" channel err => ", err)
     })
@@ -44,8 +39,11 @@ mq.connect("amqp://localhost")
 console.log(" connection err ===> ", err)
 })
 
+})
 
-server.get("/message", (req,res)=> {
+
+
+server.get("/api", (req,res)=> {
 
     res.status(200).json({data:"***  api is working ***"})
 })
